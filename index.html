@@ -348,6 +348,23 @@ button{cursor:pointer}
 <button onClick="{{acceptAll}}" disabled="{{lowConf}}" style="{{acceptStyle}}">Accept AI recommendation</button>
 </div>
 </div>
+<template data-if="accOpen">
+<div role="dialog" aria-label="Note why you accept" style="margin-top: 12px; background: #FFFFFF; border: 1px solid #2D6A55; border-radius: 6px; padding: 14px 16px; box-shadow: 0 8px 24px rgba(15,23,42,0.10)">
+<label for="accNote" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px">Why are you accepting this plan?</label>
+<div style="font-size: 12px; color: #4A5A60; margin-bottom: 8px">Every decision, accept or override, needs a short note. It goes into the decision log.</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px">
+<template data-for="accChips" data-as="c">
+<button type="button" onClick="{{c.pick}}" style="border: 1px solid #C9D3CF; background: #F6F8F7; border-radius: 999px; padding: 4px 10px; font-size: 12px; color: #1C2A30">{{c.label}}</button>
+</template>
+</div>
+<input id="accNote" value="{{accNote}}" onChange="{{onAccNote}}" placeholder="e.g. Matches what our charge nurses are seeing" style="{{accInputStyle}}">
+<template data-if="accError"><div style="font-size: 12px; color: #B91C1C; margin-top: 4px">Add a short note before saving.</div></template>
+<div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px">
+<button type="button" onClick="{{accCancel}}" style="border: 1px solid #C9D3CF; background: #FFFFFF; border-radius: 4px; padding: 7px 14px; font-size: 13px">Cancel</button>
+<button type="button" onClick="{{accConfirm}}" style="border: none; background: #2D6A55; color: #FFFFFF; border-radius: 4px; padding: 7px 14px; font-size: 13px; font-weight: 500">Accept and save</button>
+</div>
+</div>
+</template>
 
 <template data-if="hasToast">
 <div role="status" style="position: absolute; z-index: 20; top: -12px; right: 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 6px; padding: 10px 14px; box-shadow: 0 8px 24px rgba(15,23,42,0.12)">
@@ -589,7 +606,7 @@ button{cursor:pointer}
 </div>
 
 <section style="background: #FFFFFF; border: 1px solid #DCE3E0; border-radius: 6px; padding: 20px">
-<h2 style="margin: 0 0 12px; font-size: 15px; font-weight: 600">Decision log<details class="tipwrap" style="position: relative; display: inline-block; vertical-align: middle"><summary class="info" aria-label="About decision log" title="Every accepted plan and override, with the reason and time. Used to review overrides and improve the model.">i</summary><span role="tooltip" style="position: absolute; z-index: 10; top: 22px; left: -8px; width: 240px; background: #1C2A30; color: #FFFFFF; font-size: 12px; font-weight: 400; line-height: 1.5; padding: 8px 10px; border-radius: 4px; text-align: left; white-space: normal; box-shadow: 0 8px 20px rgba(15,23,42,0.2)">Every accepted plan and override, with the reason and time. Used to review overrides and improve the model.</span></details></h2>
+<h2 style="margin: 0 0 12px; font-size: 15px; font-weight: 600">Decision log<details class="tipwrap" style="position: relative; display: inline-block; vertical-align: middle"><summary class="info" aria-label="About decision log" title="Every accepted plan and override, with the manager's note and time. Used to review overrides and improve the model.">i</summary><span role="tooltip" style="position: absolute; z-index: 10; top: 22px; left: -8px; width: 240px; background: #1C2A30; color: #FFFFFF; font-size: 12px; font-weight: 400; line-height: 1.5; padding: 8px 10px; border-radius: 4px; text-align: left; white-space: normal; box-shadow: 0 8px 20px rgba(15,23,42,0.2)">Every accepted plan and override, with the manager's note and time. Used to review overrides and improve the model.</span></details></h2>
 <template data-if="noLog">
 <p style="margin: 0; font-size: 13px; color: #4A5A60">Decisions you accept or override appear here, with the reason and time.</p>
 </template>
@@ -1254,14 +1271,24 @@ class Component extends DCLogic {
       regShifts: m.nDays * 2, regCost: money(m.nDays * 2 * 8 * 35),
       addReg: function () { self.setState({ reg: true, toast: 'Equity support staff added · ' + (m.nDays * 2) + ' shifts', log: st.log.concat([{ shift: 'Evening and night shifts', action: 'Added equity support staff', reason: 'High uninsured share on these shifts', time: 'Sep 1, ' + self.stamp() }]) }); },
       onReason: function (e) { self.setState({ reason: e.target.value, showError: false }); },
+      accOpen: !!st.accOpen, accNote: st.accNote || '', accError: !!st.accError,
+      accInputStyle: 'width: 100%; box-sizing: border-box; border: 1px solid ' + (st.accError ? '#B91C1C' : '#C9D3CF') + '; border-radius: 4px; padding: 8px 10px; font-size: 13px; font-family: inherit',
+      accChips: ['Matches what charge nurses are seeing', 'Checked shift details and acuity', 'Early flu signal looks credible'].map(function (t) { return { label: t, pick: function () { self.setState({ accNote: t, accError: false }); } }; }),
+      onAccNote: function (e) { self.setState({ accNote: e.target.value, accError: false }); },
+      accCancel: function () { self.setState({ accOpen: false, accNote: '', accError: false }); },
       acceptAll: function () {
         if (confLabel === 'Low') return;
+        self.setState({ accOpen: true, accError: false });
+      },
+      accConfirm: function () {
+        var note = (st.accNote || '').trim();
+        if (!note) { self.setState({ accError: true }); return; }
         var plans = Object.assign({}, st.plans);
         var saved = Object.assign({}, st.saved);
         m.rows.forEach(function (r) { plans[r.key] = Math.max(r.min, r.need); saved[r.key] = plans[r.key]; });
         var changed = m.rows.filter(function (r) { return r.plan !== Math.max(r.min, r.need); }).length;
-        var entry = { shift: weekRange, action: 'Accepted recommended plan', reason: '—', time: 'Sep 1, ' + self.stamp() };
-        self.setState({ plans: plans, saved: saved, log: st.log.concat([entry]), toast: 'Plan saved · ' + changed + ' shifts updated' });
+        var entry = { shift: weekRange, action: 'Accepted recommended plan', reason: note, time: 'Sep 1, ' + self.stamp() };
+        self.setState({ plans: plans, saved: saved, log: st.log.concat([entry]), accOpen: false, accNote: '', accError: false, toast: 'Plan saved · ' + changed + ' shifts updated' });
       },
       goStaffing: function () { self.setState({ tab: 'staffing' }); },
       goFinance: function () { self.setState({ tab: 'finance' }); },
