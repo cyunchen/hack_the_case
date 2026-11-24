@@ -154,6 +154,30 @@ button{cursor:pointer}
 </div>
 </div>
 
+<section aria-label="Forecast compared with last season" style="background: #FFFFFF; border: 1px solid #DCE3E0; border-radius: 6px; padding: 16px 20px">
+<h2 style="margin: 0 0 4px; font-size: 15px; font-weight: 600">Compared with last season<span class="ai-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="#2D6A55" aria-hidden="true"><path d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4z"></path></svg>AI</span></h2>
+<div style="font-size: 12px; color: #4A5A60; margin-bottom: 12px">Days in the selected range where the forecast is at least 5% above or below last season's arrivals on the same date.</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<div style="background: #FFFFFF; border: 1px solid #DCE3E0; border-left: 4px solid #C2410C; border-radius: 6px; padding: 14px 16px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #4A5A60"><span style="width: 10px; height: 10px; border-radius: 50%; background: #C2410C"></span>Above last season</div>
+<div style="display: flex; align-items: baseline; gap: 6px; margin-top: 4px"><span style="font-size: 26px; font-weight: 600">{{cmp.above.n}}</span><span style="font-size: 13px; color: #4A5A60">of {{cmp.days}} days</span></div>
+<template data-if="cmp.above.has"><div style="font-size: 12px; line-height: 1.6; color: #34444A; margin-top: 4px"><div>{{cmp.above.span}}</div><div>Average {{cmp.above.avg}}</div><div style="font-weight: 600; color: #9A3412">Biggest: {{cmp.above.big}}</div><div style="color: #9A3412">Flu arriving earlier: plan extra nurses</div></div></template>
+<template data-if="cmp.above.none"><div style="font-size: 12px; color: #4A5A60; margin-top: 4px">None in the selected range</div></template>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #DCE3E0; border-left: 4px solid #0369A1; border-radius: 6px; padding: 14px 16px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #4A5A60"><span style="width: 9px; height: 9px; background: #0369A1; transform: rotate(45deg)"></span>Below last season</div>
+<div style="display: flex; align-items: baseline; gap: 6px; margin-top: 4px"><span style="font-size: 26px; font-weight: 600">{{cmp.below.n}}</span><span style="font-size: 13px; color: #4A5A60">of {{cmp.days}} days</span></div>
+<template data-if="cmp.below.has"><div style="font-size: 12px; line-height: 1.6; color: #34444A; margin-top: 4px"><div>{{cmp.below.span}}</div><div>Average {{cmp.below.avg}}</div><div style="font-weight: 600; color: #0B5A7A">Biggest: {{cmp.below.big}}</div><div style="color: #0B5A7A">No RSV bump this year: avoid overstaffing</div></div></template>
+<template data-if="cmp.below.none"><div style="font-size: 12px; color: #4A5A60; margin-top: 4px">None in the selected range</div></template>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #DCE3E0; border-left: 4px solid #94A3B8; border-radius: 6px; padding: 14px 16px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #4A5A60"><span style="width: 10px; height: 3px; background: #94A3B8"></span>Similar to last season</div>
+<div style="display: flex; align-items: baseline; gap: 6px; margin-top: 4px"><span style="font-size: 26px; font-weight: 600">{{cmp.similar.n}}</span><span style="font-size: 13px; color: #4A5A60">of {{cmp.days}} days</span></div>
+<template data-if="cmp.similar.has"><div style="font-size: 12px; line-height: 1.6; color: #34444A; margin-top: 4px"><div>{{cmp.similar.span}}</div><div>Average {{cmp.similar.avg}}</div><div style="color: #4A5A60">Last season's schedule is a fair guide</div></div></template>
+<template data-if="cmp.similar.none"><div style="font-size: 12px; color: #4A5A60; margin-top: 4px">None in the selected range</div></template>
+</div>
+</div>
+</section>
 <div style="display: flex; flex-wrap: wrap; gap: 20px">
 <section style="flex: 999 1 560px; min-width: 0; background: #FFFFFF; border: 1px solid #DCE3E0; border-radius: 6px; padding: 20px">
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px">
@@ -337,7 +361,7 @@ button{cursor:pointer}
 </template>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px">
-<div style="background: #FFFFFF; border: 1px solid #DCE3E0; border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column"><div style="font-size: 12px; color: #4A5A60">Average wait to see a provider</div><div style="display: flex; align-items: baseline; gap: 8px; margin-top: 4px; flex-wrap: wrap"><span style="font-size: 24px; font-weight: 700">{{kpi.wait}}</span><span style="{{kpi.waitDeltaStyle}}">{{kpi.waitDelta}}</span></div><div style="font-size: 11px; line-height: 1.45; color: #4A5A60; margin-top: 8px; padding-top: 8px; border-top: 1px solid #EEF1F0">Estimate. Uses Kingman's queueing formula: wait rises with utilization ÷ (1 − utilization). Calibrated to Halvian's current 55-minute median wait.</div></div>
+<div style="background: #FFFFFF; border: 1px solid #DCE3E0; border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column"><div style="font-size: 12px; color: #4A5A60">Average wait to see a provider</div><div style="display: flex; align-items: baseline; gap: 8px; margin-top: 4px; flex-wrap: wrap"><span style="font-size: 24px; font-weight: 700">{{kpi.wait}}</span><span style="{{kpi.waitDeltaStyle}}">{{kpi.waitDelta}}</span></div><div style="font-size: 11px; line-height: 1.45; color: #4A5A60; margin-top: 8px; padding-top: 8px; border-top: 1px solid #EEF1F0">Estimate. Uses Kingman's queueing formula: wait rises with utilization ÷ (1 − utilization). Calibrated to Halvian's current 55-minute median wait; assumes nurse staffing drives about 40% of wait (the rest is beds, labs and boarding).</div></div>
 <div style="background: #FFFFFF; border: 1px solid #DCE3E0; border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column"><div style="font-size: 12px; color: #4A5A60">Average overtime per nurse</div><div style="display: flex; align-items: baseline; gap: 8px; margin-top: 4px; flex-wrap: wrap"><span style="font-size: 24px; font-weight: 700">{{kpi.ot}}</span><span style="{{kpi.otDeltaStyle}}">{{kpi.otDelta}}</span></div><div style="font-size: 11px; line-height: 1.45; color: #4A5A60; margin-top: 8px; padding-top: 8px; border-top: 1px solid #EEF1F0">Overtime hours if remaining gaps are filled last minute (8 hrs per missing shift), divided by 60 ED nurses on staff (assumption).</div></div>
 <div style="background: #FFFFFF; border: 1px solid #DCE3E0; border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column"><div style="font-size: 12px; color: #4A5A60">30-day mortality risk</div><div style="display: flex; align-items: baseline; gap: 8px; margin-top: 4px; flex-wrap: wrap"><span style="font-size: 24px; font-weight: 700">{{kpi.mort}}</span><span style="font-size: 12px; color: #4A5A60">vs. current schedule</span></div><div style="font-size: 11px; line-height: 1.45; color: #4A5A60; margin-top: 8px; padding-top: 8px; border-top: 1px solid #EEF1F0">Relative change. Based on Aiken et al., JAMA 2002: each additional patient per nurse raised the odds of death within 30 days by 7%. Studied in surgical inpatients; an illustrative estimate, not a clinical prediction.</div></div>
 </div>
@@ -736,6 +760,14 @@ class Component extends DCLogic {
     var m = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     return withDay ? dt.toLocaleDateString('en-US', { weekday: 'short' }) + ' ' + m : m;
   }
+  early(d) {
+    var sig = this.sig();
+    var sF = 0.5 + 10 * sig;
+    var wave = 0.26 / (1 + Math.exp(-(d - 16) / 3)) * (d > 50 ? Math.exp(-(d - 50) / 25) : 1);
+    var quiet = -0.06 * Math.exp(-Math.pow((d - 4) / 5, 2));
+    var bump = 0.04 * Math.exp(-Math.pow((d - 4) / 5, 2));
+    return { wave: wave * sF, quiet: quiet, bump: bump };
+  }
   sig() {
     var st = this.state;
     return (st.trends ? 0.03 : 0) + (st.ww ? 0.02 : 0) + (st.flights ? 0.02 : 0);
@@ -761,7 +793,8 @@ class Component extends DCLogic {
     for (var d = d0; d <= d1; d++) {
       var dt = new Date(2026, 9, 1 + d);
       var sd = interp(d), dm = dowMult[dt.getDay()];
-      var f = 1 + 0.6 * (sev + sig) * sd;
+      var ea = self.early(d);
+      var f = 1 + 0.6 * ((sev + sig) * sd + ea.wave + ea.quiet);
       sSum += sd; nDays++;
       var day = self.fmt(dt, true);
       var wkIdx = Math.floor((d + 3) / 7);
@@ -772,7 +805,7 @@ class Component extends DCLogic {
         var need = gen + crit + 3;
         var key = 'd' + d + 's' + si;
         var plan = st.plans[key] !== undefined ? st.plans[key] : sh.last;
-        rows.push({ idx: i, key: key, min: sh.min, day: day, wk: wkIdx, dm: dm, sd: sd, shift: sh.s, base: sh.base, last: sh.last, u: sh.u, c: sh.c, census: census, gen: gen, crit: crit, need: need, plan: plan });
+        rows.push({ idx: i, key: key, min: sh.min, day: day, wk: wkIdx, dm: dm, sd: sd, wave: ea.wave, quiet: ea.quiet, shift: sh.s, base: sh.base, last: sh.last, u: sh.u, c: sh.c, census: census, gen: gen, crit: crit, need: need, plan: plan });
         i++;
       });
     }
@@ -791,9 +824,10 @@ class Component extends DCLogic {
     var shape = this.shape();
     var dayMult = [1.05, 1.0, 0.98];
     var shifts = [[36, 14], [38, 14], [20, 9]];
-    var total = 0;
-    shape.forEach(function (s) {
-      var f = 1 + 0.6 * (sev + sig) * s;
+    var total = 0, self = this;
+    shape.forEach(function (s, k) {
+      var ea = self.early(k * 7);
+      var f = 1 + 0.6 * ((sev + sig) * s + ea.wave + ea.quiet);
       dayMult.forEach(function (dm) {
         shifts.forEach(function (sh) {
           var census = Math.round(sh[0] * f * dm);
@@ -844,7 +878,8 @@ class Component extends DCLogic {
     for (var d0 = 0; d0 < NDAYS; d0++) {
       var dt0 = new Date(2026, 9, 1 + d0);
       var sf = interp(shape, d0), sl = interp(lyShape, d0), df = dowF[dt0.getDay()];
-      days.push({ d: d0, dt: dt0, s: sf, dow: df, ush: (dt0.getDay() === 0 || dt0.getDay() === 6) ? 0.09 : 0.08, fc: 233 * (1 + (m.sev + m.sig) * sf) * df, ly: 233 * (1 + 0.25 * sl) * df });
+      var ea0 = self.early(d0);
+      days.push({ d: d0, dt: dt0, s: sf, dow: df, wave: ea0.wave, quiet: ea0.quiet, bump: ea0.bump, ush: (dt0.getDay() === 0 || dt0.getDay() === 6) ? 0.09 : 0.08, fc: 233 * (1 + (m.sev + m.sig) * sf + ea0.wave + ea0.quiet) * df, ly: 233 * (1 + 0.25 * sl + ea0.bump) * df });
     }
     this._days = days; this._daysKey = cacheKey;
     }
@@ -858,10 +893,10 @@ class Component extends DCLogic {
       if (st.gran === 'day') { key = x.d; label = self.fmt(x.dt, false); title = self.fmt(x.dt, true); }
       else if (st.gran === 'month') { key = x.dt.getFullYear() * 12 + x.dt.getMonth(); label = x.dt.toLocaleDateString('en-US', { month: 'short' }); title = x.dt.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }); }
       else { key = Math.floor((x.d + 3) / 7); label = self.fmt(self.dateOf(key, 0), false); title = 'Week of ' + self.fmt(self.dateOf(key, 0), false) + ' – ' + self.fmt(self.dateOf(key, 6), false); }
-      if (!groupsF[key]) { groupsF[key] = { label: label, title: title, n: 0, fc: 0, ly: 0, s: 0, dow: 0, un: 0 }; orderF.push(key); }
-      var g = groupsF[key]; g.n++; g.fc += x.fc; g.ly += x.ly; g.s += x.s; g.dow += x.dow; g.un += x.fc * x.ush;
+      if (!groupsF[key]) { groupsF[key] = { label: label, title: title, n: 0, fc: 0, ly: 0, s: 0, dow: 0, un: 0, wave: 0, quiet: 0, bump: 0 }; orderF.push(key); }
+      var g = groupsF[key]; g.n++; g.fc += x.fc; g.ly += x.ly; g.s += x.s; g.dow += x.dow; g.un += x.fc * x.ush; g.wave += x.wave; g.quiet += x.quiet; g.bump += x.bump;
     });
-    var pts = orderF.map(function (k) { var g = groupsF[k]; return { label: g.label, title: g.title, fc: g.fc / g.n, ly: g.ly / g.n, s: g.s / g.n, dow: g.dow / g.n, un: g.un / g.n }; });
+    var pts = orderF.map(function (k) { var g = groupsF[k]; return { label: g.label, title: g.title, fc: g.fc / g.n, ly: g.ly / g.n, s: g.s / g.n, dow: g.dow / g.n, un: g.un / g.n, wave: g.wave / g.n, quiet: g.quiet / g.n, bump: g.bump / g.n }; });
     var N = pts.length;
     var stepX = N > 1 ? 730 / (N - 1) : 0;
     var xOf = function (k) { return N > 1 ? 50 + k * stepX : 415; };
@@ -885,7 +920,7 @@ class Component extends DCLogic {
     var fcSummary = '';
     if (N > 0) {
       var pk = pts[fcPeak], pkDiff = pk.fc / pk.ly - 1, lyPk = pts[lyPeak];
-      var sigShare = Math.round(m.sig * pk.s * 100);
+      var sigShare = Math.round((m.sig * pk.s + pk.wave) * 100);
       var granWord = st.gran === 'day' ? 'day' : (st.gran === 'week' ? 'week' : 'month');
       fcSummary = 'Arrivals are expected to peak ' + (st.gran === 'day' ? 'on ' : 'the ' + granWord + ' of ') + pk.title.replace('Week of ', '').replace(/ – .*/, '') + ' at about ' + Math.round(pk.fc) + ' patients a day, ' + Math.abs(Math.round(pkDiff * 100)) + '% ' + (pkDiff >= 0 ? 'more' : 'fewer') + ' than last season at the same time. ' +
         (fcPeak !== lyPeak ? 'Last season peaked earlier, around ' + lyPk.label + ', so a schedule copied from last year would be short later in the season. ' : '') +
@@ -894,6 +929,19 @@ class Component extends DCLogic {
     }
     var extra = 0;
     inRange.forEach(function (x) { extra += x.fc - x.ly; });
+    var mkCmp = function (kind) {
+      var list = inRange.filter(function (x) { var dd = x.fc / x.ly - 1; return kind === 'above' ? dd >= 0.05 : (kind === 'below' ? dd <= -0.05 : Math.abs(dd) < 0.05); });
+      var o = { n: list.length, has: list.length > 0, none: list.length === 0 };
+      if (!list.length) return o;
+      var big = list[0], sumD = 0;
+      list.forEach(function (x) { sumD += x.fc - x.ly; if (Math.abs(x.fc / x.ly - 1) > Math.abs(big.fc / big.ly - 1)) big = x; });
+      o.span = list.length === 1 ? self.fmt(list[0].dt, false) : self.fmt(list[0].dt, false) + ' – ' + self.fmt(list[list.length - 1].dt, false);
+      o.avg = (sumD >= 0 ? '+' : '−') + Math.abs(Math.round(sumD / list.length)) + ' patients/day';
+      o.big = signed(big.fc / big.ly - 1) + ' on ' + self.fmt(big.dt, true);
+      return o;
+    };
+    var cmp = { above: mkCmp('above'), below: mkCmp('below'), similar: mkCmp('similar') };
+    cmp.days = cmp.above.n + cmp.below.n + cmp.similar.n;
 
     var sigList = [['trends', 'Search trends', 0.03], ['ww', 'Wastewater, flu A', 0.02], ['flights', 'Flights from high-flu areas', 0.02]];
     var markers = [];
@@ -914,7 +962,10 @@ class Component extends DCLogic {
       var p = pts[hk], v = p.fc, dd2 = v / p.ly - 1, xp = xOf(hk) / 8, yp = yOf(v) / 2.5;
       var status = dd2 >= 0.05 ? 'above' : (dd2 <= -0.05 ? 'below' : 'similar');
       var reasons = [{ label: 'Flu-season timing', value: signed(m.sev * p.s) }];
+      if (p.wave >= 0.005) reasons.push({ label: 'Early flu wave (from signals)', value: signed(p.wave) });
+      if (p.quiet <= -0.005) reasons.push({ label: 'Quieter start than usual', value: signed(p.quiet) });
       sigList.forEach(function (g) { if (st[g[0]]) reasons.push({ label: g[1], value: signed(g[2] * p.s) }); });
+      if (p.bump >= 0.005) reasons.push({ label: 'Last season had an RSV bump', value: '+' + Math.round(p.bump * 100) + '% then' });
       if (st.gran === 'day') reasons.push({ label: 'Day of week', value: signed(p.dow - 1) });
       else reasons.push({ label: 'Total vs. normal week', value: signed((m.sev + m.sig) * p.s) });
       tip = {
@@ -925,7 +976,7 @@ class Component extends DCLogic {
         badgeStyle: 'font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: ' + (status === 'above' ? '#FFEDD5; color: #9A3412' : (status === 'below' ? '#E3EFF5; color: #0B5A7A' : '#F1F5F9; color: #34444A')),
         reasons: reasons,
         hasNote: status !== 'similar',
-        note: status === 'above' ? 'Unusually high: plan extra coverage for this period.' : 'Lower than last season: last season peaked earlier. Avoid overstaffing.',
+        note: status === 'above' ? 'Unusually high: flu is arriving earlier than last season. Plan extra coverage.' : 'Lower than last season: last season had an early RSV bump that is not showing up this year. Avoid overstaffing.',
         noteStyle: 'margin-top: 10px; font-size: 12px; padding: 8px 10px; border-radius: 4px; background: ' + (status === 'above' ? '#FFF7ED; color: #7C2D12' : '#F0F9FF; color: #0C4A6E'),
         lineStyle: 'position: absolute; pointer-events: none; top: 10%; height: 82%; width: 1px; background: #94A3B8; left: ' + xp.toFixed(2) + '%',
         dotStyle: 'position: absolute; pointer-events: none; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #2D6A55; border: 2px solid #FFFFFF; left: ' + xp.toFixed(2) + '%; top: ' + yp.toFixed(2) + '%',
@@ -993,7 +1044,7 @@ class Component extends DCLogic {
       var gap = r.plan - r.need;
       var cost = (r.plan - r.last) * 8 * 65;
       var f2 = 1 + 0.6 * (m.sev + m.sig) * m.s;
-      var seasonPart = Math.round(r.base * 0.6 * m.sev * r.sd), sigPart = Math.round(r.base * 0.6 * m.sig * r.sd);
+      var seasonPart = Math.round(r.base * 0.6 * (m.sev * r.sd + r.quiet)), sigPart = Math.round(r.base * 0.6 * (m.sig * r.sd + r.wave));
       var dayPart = r.census - r.base - seasonPart - sigPart;
       var plusN = function (n) { return (n >= 0 ? '+' : '−') + Math.abs(n); };
       var edited = st.plans[r.key] !== undefined;
@@ -1008,7 +1059,7 @@ class Component extends DCLogic {
         riskLabel: gap < 0 ? '+' + money(-gap * 8 * 97.5) : 'None',
         riskStyle: gap < 0 ? 'color: #9A3412; font-weight: 600' : 'color: #4A5A60',
         plain: lowConfB ? 'Forecast confidence is low, so no recommendation is shown for this shift.' :
-          (r.shift + ' on ' + r.day + ' needs ' + r.need + ' nurses: about ' + r.census + ' patients are expected at the busiest time, ' + (seasonPart + sigPart) + ' more than a normal ' + r.day.split(' ')[0] + ' because of flu season and early signals. ' +
+          (r.shift + ' on ' + r.day + ' needs ' + r.need + ' nurses: about ' + r.census + ' patients are expected at the busiest time, ' + Math.abs(seasonPart + sigPart) + (seasonPart + sigPart >= 0 ? ' more' : ' fewer') + ' than a normal ' + r.day.split(' ')[0] + ' because of flu season and early signals. ' + (r.need !== r.last ? 'Last season this shift had ' + r.last + '. ' : '') +
           (gap < 0 ? 'Your plan is ' + (-gap) + ' short, which could mean about ' + money(-gap * 8 * 97.5) + ' in overtime.' : (gap > 0 ? 'Your plan has ' + gap + ' more than needed.' : 'Your plan matches.'))),
         needLabel: lowConfB ? 'Hidden' : r.need, needStyle: lowConfB ? 'color: #64748B; font-style: italic' : 'font-weight: 600',
         needsReason: needsReason, selected: selected, isFirst: isFirst,
@@ -1062,13 +1113,13 @@ class Component extends DCLogic {
     var kW = function (rho) { return rho / (1 - rho); };
     var wSumPlan = 0, wSumCur = 0, cSum = 0, bedPlan = 0, bedCur = 0, otHrsPlan = 0, otHrsCur = 0;
     m.rows.forEach(function (r) {
-      var rhoP = Math.min(0.97, 0.85 * r.need / Math.max(1, r.plan));
-      var rhoC = Math.min(0.97, 0.85 * r.need / Math.max(1, r.last));
+      var rhoP = Math.min(0.95, 0.8 * r.need / Math.max(1, r.plan));
+      var rhoC = Math.min(0.95, 0.8 * r.need / Math.max(1, r.last));
       wSumPlan += r.census * kW(rhoP); wSumCur += r.census * kW(rhoC); cSum += r.census;
       bedPlan += Math.max(1, r.plan - 3); bedCur += Math.max(1, r.last - 3);
       otHrsPlan += Math.max(0, r.need - r.plan) * 8; otHrsCur += Math.max(0, r.need - r.last) * 8;
     });
-    var waitPlan = wSumCur > 0 ? Math.max(15, Math.round(55 * wSumPlan / wSumCur)) : 55;
+    var waitPlan = wSumCur > 0 ? Math.round(55 * (0.6 + 0.4 * wSumPlan / wSumCur)) : 55;
     var waitDiff = waitPlan - 55;
     var otPlan = otHrsPlan / 60, otCur = otHrsCur / 60;
     var ppnPlan = cSum / Math.max(1, bedPlan), ppnCur = cSum / Math.max(1, bedCur);
@@ -1187,7 +1238,7 @@ class Component extends DCLogic {
       sStartBtnStyle: btnStyle(st.cal === 'sstart'), sEndBtnStyle: btnStyle(st.cal === 'send'),
       openSStart: function () { var d = parse(st.sStart); self.setState({ cal: st.cal === 'sstart' ? '' : 'sstart', calM: d.getFullYear() * 12 + d.getMonth() }); },
       openSEnd: function () { var d = parse(st.sEnd); self.setState({ cal: st.cal === 'send' ? '' : 'send', calM: d.getFullYear() * 12 + d.getMonth() }); },
-      markers: markers, zones: zones, tip: tip, hasHover: hk >= 0, clearHover: function () { self.setState({ hov: -1 }); },
+      cmp: cmp, markers: markers, zones: zones, tip: tip, hasHover: hk >= 0, clearHover: function () { self.setState({ hov: -1 }); },
       peakWeek: pts[fcPeak] ? pts[fcPeak].label : '—', lyPeakWeek: pts[lyPeak] ? pts[lyPeak].label : '—',
       peakFc: peakFc, peakRange: Math.round(peakFc * (1 - width)) + '–' + Math.round(peakFc * (1 + width)),
       extraPatients: Math.round(extra).toLocaleString(), sevPct: signed(m.sev * avgS), rangeShort: self.fmt(days[a0].dt, false) + ' – ' + self.fmt(days[a1].dt, false),
